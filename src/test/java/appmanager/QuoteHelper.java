@@ -1,7 +1,6 @@
 package appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,11 +8,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class MainHelper extends BaseHelper {
+public class QuoteHelper extends BaseHelper {
 
 
-    public MainHelper(WebDriver wd) {
+    public QuoteHelper(WebDriver wd) {
         super(wd);
+    }
+
+    public void goToCreate() {
+        waitForElementToLoad("#tab-customers");
+        click(By.xpath("//*[@id=\"tab-customers\"]"));
+        click(By.linkText("Current Account"));
+        click(By.linkText("Create Quote"));
+    }
+
+    public void addProducts() {
+        searchProduct("Lenovo");
+        waitForElementToLoad("#search_form");
+        checkCompareBoxes(1, 4, 9);
+        click(By.cssSelector("#nextaction-caret"));
+        click(By.cssSelector("#lineaction-addtodoc"));
     }
 
     public void assertTab(String tabName, String tabText) {
@@ -24,19 +38,12 @@ public class MainHelper extends BaseHelper {
         click(By.xpath("//*[@id=tab-customers]/span"));
     }
 
-    public MainHelper checkCompareBoxes(int... nThCheckBoxes) {
+    public QuoteHelper checkCompareBoxes(int... nThCheckBoxes) {
         List<WebElement> checkBoxes = wd.findElements(By.cssSelector("input[class='check-multiple']"));
 
         for (int n : nThCheckBoxes) {
             checkBoxes.get(n - 1).click();
         }
-        return this;
-    }
-
-    public MainHelper searchClick() {
-        JavascriptExecutor jse = (JavascriptExecutor) wd;
-
-        jse.executeScript("arguments[0].scrollIntoView()", "button#add-product-submit");
         return this;
     }
 
@@ -55,18 +62,10 @@ public class MainHelper extends BaseHelper {
         return quoteInt;
     }
 
-    public MainHelper searchProduct(String productName) {
+    public QuoteHelper searchProduct(String productName) {
         waitForElementToBeVisible(By.cssSelector("input#addProductKeyword"));
-//        sleep(500); // Scratchpad input does not recognize there is text without this wait.
-
         wd.findElement(By.cssSelector("input#addProductKeyword")).sendKeys(productName);
-//        sleep(500);
         wd.findElement(By.cssSelector("button#add-product-submit")).click();
-//        try {
-//            waitForQuickLoad(10);
-//        } catch (Exception e) {
-//
-//        }
         return this;
     }
 

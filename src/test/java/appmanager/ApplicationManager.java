@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     private final Properties properties;
     private SessionHelper sessionHelper;
-    private MainHelper mainHelper;
+    private QuoteHelper quoteHelper;
     WebDriver wd;
     private String chromeDriverVersion = System.getProperty("chromedriver-version", "2.40");
 
@@ -25,7 +25,7 @@ public class ApplicationManager {
 
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
-        properties.load(new FileReader(new File(String.format("D:/Work/Channel_Online/col-autotests/src/test/resources/%s.properties", target))));
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
 //        if (Objects.equals(browser, BrowserType.FIREFOX)) {
 //            wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true).setBinary("C:/Tools/firefox.exe"));
@@ -39,7 +39,7 @@ public class ApplicationManager {
         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         wd.get(properties.getProperty("web.baseUrl"));
         sessionHelper = new SessionHelper(wd);
-        mainHelper = new MainHelper(wd);
+        quoteHelper = new QuoteHelper(wd);
         sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
         wd.manage().window().maximize();
     }
@@ -80,8 +80,8 @@ public class ApplicationManager {
         return new ChromeDriver();
     }
 
-    public MainHelper quote() {
-        return mainHelper;
+    public QuoteHelper quote() {
+        return quoteHelper;
     }
 }
 
