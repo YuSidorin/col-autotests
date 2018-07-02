@@ -36,7 +36,7 @@ public class BaseHelper {
     }
 
     public void waitForElementToLoad(String element) {
-        new WebDriverWait(wd, 5).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(element)));
+        new WebDriverWait(wd, 15).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(element)));
     }
 
     public void waitForElementToBeVisible(By by) {
@@ -51,7 +51,7 @@ public class BaseHelper {
         new WebDriverWait(wd, timeInSeconds).until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
-    public void forceWait(long time) {
+    public void sleep(long time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {

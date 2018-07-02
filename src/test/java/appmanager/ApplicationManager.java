@@ -80,7 +80,7 @@ public class ApplicationManager {
         return new ChromeDriver();
     }
 
-    public MainHelper  tab() {
+    public MainHelper quote() {
         return mainHelper;
     }
 }

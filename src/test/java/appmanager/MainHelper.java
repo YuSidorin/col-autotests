@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -30,22 +32,23 @@ public class MainHelper extends BaseHelper {
         }
         return this;
     }
-    public MainHelper searchClick ()  {
-        JavascriptExecutor jse = (JavascriptExecutor)wd;
+
+    public MainHelper searchClick() {
+        JavascriptExecutor jse = (JavascriptExecutor) wd;
 
         jse.executeScript("arguments[0].scrollIntoView()", "button#add-product-submit");
-        return  this;
+        return this;
     }
 
-    public long getDocNumber() {
-        long quoteInt;
+    public int getDocNumber() {
+        int quoteInt;
         try {
             String quoteNumber = wd.findElement(By.cssSelector("div#quoteNumber")).getText();
             quoteNumber = quoteNumber.split("-")[0].trim();
-            quoteInt = Long.parseLong(quoteNumber);
+            quoteInt = Integer.parseInt(quoteNumber);
         } catch (NumberFormatException e) {
             String quoteNumber = wd.findElement(By.cssSelector("input#quoteNumber")).getAttribute("value");
-            quoteInt = Long.parseLong(quoteNumber);
+            quoteInt = Integer.parseInt(quoteNumber);
         }
 
 //        logger.info(quoteInt + "");
@@ -54,10 +57,10 @@ public class MainHelper extends BaseHelper {
 
     public MainHelper searchProduct(String productName) {
         waitForElementToBeVisible(By.cssSelector("input#addProductKeyword"));
-//        forceWait(500); // Scratchpad input does not recognize there is text without this wait.
+//        sleep(500); // Scratchpad input does not recognize there is text without this wait.
 
         wd.findElement(By.cssSelector("input#addProductKeyword")).sendKeys(productName);
-//        forceWait(500);
+//        sleep(500);
         wd.findElement(By.cssSelector("button#add-product-submit")).click();
 //        try {
 //            waitForQuickLoad(10);
@@ -66,10 +69,16 @@ public class MainHelper extends BaseHelper {
 //        }
         return this;
     }
-    public void switchFrame(String locator){
-        wd.switchTo().defaultContent();
-        waitForElementToBeVisible(By.cssSelector(String.valueOf(locator)));
-        wd.switchTo().frame(wd.findElement(By.cssSelector(String.valueOf(locator))));
+
+    public void waitForPageToLoad() {
+        new WebDriverWait(wd, 30).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#quoteNumber")));
     }
 
+    public void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
