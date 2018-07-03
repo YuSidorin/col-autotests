@@ -10,7 +10,6 @@ import java.util.List;
 
 public class QuoteHelper extends BaseHelper {
 
-
     public QuoteHelper(WebDriver wd) {
         super(wd);
     }
@@ -28,14 +27,6 @@ public class QuoteHelper extends BaseHelper {
         checkCompareBoxes(1, 4, 9);
         click(By.cssSelector("#nextaction-caret"));
         click(By.cssSelector("#lineaction-addtodoc"));
-    }
-
-    public void assertTab(String tabName, String tabText) {
-        wd.findElement(By.id(tabName)).getText();
-    }
-
-    public void TabClick() {
-        click(By.xpath("//*[@id=tab-customers]/span"));
     }
 
     public QuoteHelper checkCompareBoxes(int... nThCheckBoxes) {
@@ -57,8 +48,6 @@ public class QuoteHelper extends BaseHelper {
             String quoteNumber = wd.findElement(By.cssSelector("input#quoteNumber")).getAttribute("value");
             quoteInt = Integer.parseInt(quoteNumber);
         }
-
-//        logger.info(quoteInt + "");
         return quoteInt;
     }
 

@@ -11,9 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
     private final Properties properties;
+    WebDriver wd;
     private SessionHelper sessionHelper;
     private QuoteHelper quoteHelper;
-    WebDriver wd;
+    private AccountHelper accountHelper;
+
     private String chromeDriverVersion = System.getProperty("chromedriver-version", "2.40");
 
     private String browser;
@@ -40,6 +42,7 @@ public class ApplicationManager {
         wd.get(properties.getProperty("web.baseUrl"));
         sessionHelper = new SessionHelper(wd);
         quoteHelper = new QuoteHelper(wd);
+        accountHelper = new AccountHelper(wd);
         sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
         wd.manage().window().maximize();
     }
@@ -59,8 +62,6 @@ public class ApplicationManager {
             emptyDriver = getChromeDriver();
 
         }
-
-
         return emptyDriver;
     }
 
@@ -82,6 +83,10 @@ public class ApplicationManager {
 
     public QuoteHelper quote() {
         return quoteHelper;
+    }
+
+    public AccountHelper account() {
+        return accountHelper;
     }
 }
 
