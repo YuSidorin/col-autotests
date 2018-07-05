@@ -18,6 +18,10 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
 
+//    public void click(AccountHelper.AccountType accountType) {
+//        wd.findElement(accountType).click();
+//    }
+
     public void type(By locator, String text) {
         click(locator);
         wd.findElement(locator).clear();
@@ -25,6 +29,10 @@ public class BaseHelper {
 
     }
 
+    public void goToAccounts() {
+        waitForElementToLoad("#tab-customers");
+        click(By.xpath("//*[@id=\"tab-customers\"]"));
+    }
 
     protected boolean isElementPresent(By locator) {
         try {
