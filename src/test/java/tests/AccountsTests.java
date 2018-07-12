@@ -15,8 +15,8 @@ public class AccountsTests extends TestBase {
         app.account().createAccount(AccountHelper.AccountType.Customer);
         app.account().waitForElementToBeVisible(By.cssSelector("#company"));
         app.account().fillAccountForm();
-        app.account().waitForElementToBeVisible(By.cssSelector("#moduledata-nameAndNumber"));
-        assertEquals(AccountHelper.companyName, app.account().getCompanyName());
+        app.account().waitForElementToBeVisible(By.cssSelector("#detailsnameAndNumber > div"));
+        assertEquals(app.account().getCompanyName(), AccountHelper.companyName);
 //        assert(Customer, AccountsSearch.Customer);
 
     }
