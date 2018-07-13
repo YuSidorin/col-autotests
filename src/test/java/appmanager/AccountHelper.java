@@ -23,9 +23,9 @@ public class AccountHelper extends BaseHelper {
         Customer,
         Lead,
         Prospect,
-        PARTNER,
-        VENDOR,
-        GENERIC
+        Partner,
+        Vendor,
+        Generic
     }
 
     public void createAccount(AccountType accountType) {
@@ -42,11 +42,11 @@ public class AccountHelper extends BaseHelper {
         if (this.accountType.equals("customer")) {
         } else if (this.accountType.equals("lead")) {
             Lead.click();
-        } else if (this.accountType.equals("Prospect")) {
+        } else if (this.accountType.equals("prospect")) {
             Prospect.click();
-        } else if (this.accountType.equals("Partner")) {
+        } else if (this.accountType.equals("partner")) {
             Partner.click();
-        } else if (this.accountType.equals("Vendor")) {
+        } else if (this.accountType.equals("vendor")) {
             Vendor.click();
         } else if (this.accountType.equals("generic")) {
             Generic.click();
@@ -57,12 +57,14 @@ public class AccountHelper extends BaseHelper {
 
     public void fillAccountForm() {
         if (this.accountType.equals("lead")) {
+            waitForElementToBeVisible(By.cssSelector("#lname"));
             setFirstName("Qa");
             setLastName("customers");
             setEmail(companyName + "@email.com");
             setLeadCompanyName(companyName);
             clickUpdateButton();
         } else {
+            waitForElementToBeVisible(By.cssSelector("#company"));
             setCompanyName(companyName);
             clickSaveButton();
             alertOk();
