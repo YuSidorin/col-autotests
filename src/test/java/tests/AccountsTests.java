@@ -15,10 +15,7 @@ public class AccountsTests extends TestBase {
         app.account().createAccount(AccountHelper.AccountType.Customer);
         app.account().waitForElementToBeVisible(By.cssSelector("#company"));
         app.account().fillAccountForm();
-        app.account().waitForElementToBeVisible(By.cssSelector("#detailsnameAndNumber > div"));
         assertEquals(app.account().getCompanyName(), AccountHelper.companyName);
-//        assert(Customer, AccountsSearch.Customer);
-
     }
 
     @Test
@@ -27,8 +24,6 @@ public class AccountsTests extends TestBase {
         app.account().createAccount(AccountHelper.AccountType.Lead);
         app.account().waitForElementToBeVisible(By.cssSelector("#lname"));
         app.account().fillAccountForm();
-
-//        assertTrue(recentAccountsTab.hasCompany(companyName));
-
+        assertEquals(app.account().getCompanyName(), AccountHelper.companyName);
     }
 }

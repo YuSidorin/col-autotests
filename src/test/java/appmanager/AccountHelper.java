@@ -5,8 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static jdk.nashorn.internal.objects.NativeString.trim;
-
 public class AccountHelper extends BaseHelper {
     public static final String companyName = "QaCustomer" + System.currentTimeMillis();
     public static String firstName = "QaCustomer";
@@ -62,8 +60,8 @@ public class AccountHelper extends BaseHelper {
             setFirstName("Qa");
             setLastName("customers");
             setEmail(companyName + "@email.com");
+            setLeadCompanyName(companyName);
             clickUpdateButton();
-            alertOk();
         } else {
             setCompanyName(companyName);
             clickSaveButton();
@@ -90,10 +88,17 @@ public class AccountHelper extends BaseHelper {
         CompanyName.sendKeys(companyName);
     }
 
+    public void setLeadCompanyName(String companyName) {
+        WebElement CompanyName = wd.findElement(By.cssSelector("input#name"));
+        CompanyName.clear();
+        CompanyName.sendKeys(companyName);
+    }
+
     public String getCompanyName() {
-        WebElement CompanyName = wd.findElement(By.cssSelector("#detailsnameAndNumber > div"));
-        String CompanyNameText = trim(CompanyName.toString());
-        return CompanyNameText;
+        waitForElementToBeVisible(By.cssSelector("#detailsnameAndNumber > div"));
+        String CompanyName = wd.findElement(By.cssSelector("#detailsnameAndNumber > div")).getText();
+        int i = CompanyName.indexOf(' ');
+        return CompanyName.substring(0, i);
     }
 
     public void setEmail(String companyName) {
@@ -101,11 +106,9 @@ public class AccountHelper extends BaseHelper {
         CompanyName.clear();
         CompanyName.sendKeys(companyName);
     }
-
     private void clickSaveButton() {
         click(By.cssSelector("#contact-finish-btn"));
     }
-
     private void clickUpdateButton() {
         click(By.cssSelector("#update-acct-btn"));
     }
