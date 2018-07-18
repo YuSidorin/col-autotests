@@ -15,6 +15,7 @@ public class ApplicationManager {
     private SessionHelper sessionHelper;
     private QuoteHelper quoteHelper;
     private AccountHelper accountHelper;
+    private StoresiteHelper storesiteHelper;
 
     private String chromeDriverVersion = System.getProperty("chromedriver-version", "2.40");
 
@@ -43,6 +44,7 @@ public class ApplicationManager {
         sessionHelper = new SessionHelper(wd);
         quoteHelper = new QuoteHelper(wd);
         accountHelper = new AccountHelper(wd);
+        storesiteHelper = new StoresiteHelper(wd);
         sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
         wd.manage().window().maximize();
     }
@@ -87,6 +89,10 @@ public class ApplicationManager {
 
     public AccountHelper account() {
         return accountHelper;
+    }
+
+    public StoresiteHelper storesite() {
+        return storesiteHelper;
     }
 }
 

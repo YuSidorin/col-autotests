@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseHelper {
@@ -14,6 +15,7 @@ public class BaseHelper {
         this.wd = wd;
     }
 
+    public Select select;
     public void click(By locator) {
         wd.findElement(locator).click();
     }
@@ -27,6 +29,11 @@ public class BaseHelper {
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
 
+    }
+
+    public Select getSelect(WebElement element) {
+        select = new Select(element);
+        return select;
     }
 
     public void goToAccounts() {

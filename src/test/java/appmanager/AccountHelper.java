@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 
 public class AccountHelper extends BaseHelper {
     public static final String companyName = "QaCustomer" + System.currentTimeMillis();
-    public static String firstName = "QaCustomer";
-    public static String lastName = "QaCustomer";
+    public static String firstName = "Qa";
+    public static String lastName = "Customer";
     public static final String address = "666 Letnikovskaya St";
     public static final String city = "Moscow";
     public static final String zip = "115114";
@@ -58,8 +58,8 @@ public class AccountHelper extends BaseHelper {
     public void fillAccountForm() {
         if (this.accountType.equals("lead")) {
             waitForElementToBeVisible(By.cssSelector("#lname"));
-            setFirstName("Qa");
-            setLastName("customers");
+            setFirstName(firstName);
+            setLastName(lastName);
             setEmail(companyName + "@email.com");
             setLeadCompanyName(companyName);
             clickUpdateButton();

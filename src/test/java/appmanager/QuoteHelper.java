@@ -17,7 +17,11 @@ public class QuoteHelper extends BaseHelper {
     public void goToCreate() {
         waitForElementToLoad("#tab-customers");
         click(By.xpath("//*[@id=\"tab-customers\"]"));
-        click(By.linkText("Current Account"));
+        getSelect(wd.findElement(By.cssSelector("#accountType")));
+        select.selectByValue("Customer");
+        waitForElementToBeVisible(By.cssSelector("#customerForm > table > tbody > tr:nth-child(1) > td.tablecell-view_icon > a"));
+        click(By.cssSelector("#customerForm > table > tbody > tr:nth-child(1) > td.tablecell-view_icon > a"));
+        waitForElementToBeVisible(By.linkText("Create Quote"));
         click(By.linkText("Create Quote"));
     }
 
