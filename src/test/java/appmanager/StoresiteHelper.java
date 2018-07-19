@@ -40,6 +40,7 @@ public class StoresiteHelper extends BaseHelper {
         type(By.cssSelector("#credential_0"), StoresiteHelper.Email);
         type(By.cssSelector("#credential_1"), StoresiteHelper.Password);
         click(By.cssSelector("input[name=login-btn]"));
-        return String erw = wd.findElement(By.cssSelector("#topnav-account-toggle")).getText();
+        waitForElementToBeVisible(By.cssSelector("#topnav-account-toggle"));
+        return wd.findElement(By.cssSelector("#topnav-account-toggle")).getText();
     }
 }
