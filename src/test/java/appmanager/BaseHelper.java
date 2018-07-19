@@ -1,9 +1,6 @@
 package appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,9 +17,13 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
 
-//    public void click(AccountHelper.AccountType accountType) {
-//        wd.findElement(accountType).click();
-//    }
+    public void alertOk() {
+        Alert alert = wd.switchTo().alert();
+        String alertText = alert.getText();
+        System.out.println(alertText);
+        alert.accept();
+
+    }
 
     public void type(By locator, String text) {
         click(locator);

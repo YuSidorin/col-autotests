@@ -1,6 +1,5 @@
 package appmanager;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +10,7 @@ public class AccountHelper extends BaseHelper {
     public static String lastName = "Customer";
     public static final String address = "666 Letnikovskaya St";
     public static final String city = "Moscow";
+    public static final String phone = "666";
     public static final String zip = "115114";
 
     private String accountType;
@@ -115,13 +115,6 @@ public class AccountHelper extends BaseHelper {
         click(By.cssSelector("#update-acct-btn"));
     }
 
-    private void alertOk() {
-        Alert alert = wd.switchTo().alert();
-        String alertText = alert.getText();
-        System.out.println(alertText);
-        alert.accept();
-
-    }
 
 
 }
