@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class StoresiteHelper extends BaseHelper {
 
-    public static String Email = "";
+    public static String Email = AccountHelper.companyName + "@cbsi.com";
     public static String StoreName = "";
     public static final String Password = "Qwe123456789";
 
@@ -27,10 +27,10 @@ public class StoresiteHelper extends BaseHelper {
 
     }
 
-    public void createAccount(String Email, String firstName, String lastName, String workPhone, String address, String city) {
+    public void createAccount(String email, String firstName, String lastName, String workPhone, String address, String city) {
         wd.get("https://stage.channelonline.com/colqa_sanity/forsanity/Login/main");
         click(By.linkText("Create An Account"));
-        type(By.cssSelector("#email"), Email);
+        type(By.cssSelector("#email"), email);
         type(By.cssSelector("#firstName"), firstName);
         type(By.cssSelector("#lastName"), lastName);
         type(By.cssSelector("#workPhone"), workPhone);
@@ -38,13 +38,15 @@ public class StoresiteHelper extends BaseHelper {
         type(By.cssSelector("#city"), city);
         click(By.cssSelector("#signup-btn"));
         waitForElementToBeVisible(By.cssSelector("input[name=Save]"));
+        type(By.cssSelector("#password1"), StoresiteHelper.Password);
+        type(By.cssSelector("#password2"), StoresiteHelper.Password);
         click(By.cssSelector("input[name=Save]"));
-//        alertOk();
+        alertOk();
     }
 
     public void login() {
         waitForElementToBeVisible(By.cssSelector("input[name=login-btn]"));
-        type(By.cssSelector("#credential_0"), StoresiteHelper.Password);
+        type(By.cssSelector("#credential_0"), StoresiteHelper.Email);
         type(By.cssSelector("#credential_1"), StoresiteHelper.Password);
         click(By.cssSelector("input[name=login-btn]"));
         waitForElementToBeVisible(By.cssSelector("#topnav-account-toggle"));
