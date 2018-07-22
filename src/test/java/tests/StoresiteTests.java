@@ -11,7 +11,8 @@ public class StoresiteTests extends TestBase {
     public void createStoresiteAccount() {
         app.storesite().createTempEmail();
         app.storesite().createAccount(StoresiteHelper.Email, AccountHelper.firstName, AccountHelper.lastName, AccountHelper.phone, AccountHelper.address, AccountHelper.city);
-        Assert.assertEquals(app.storesite().login(), "logout("+AccountHelper.companyName+")");
+        app.storesite().login();
+        Assert.assertEquals(StoresiteHelper.StoreName, "logout(" + AccountHelper.companyName + ")");
 
     }
 
