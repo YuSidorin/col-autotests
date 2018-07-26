@@ -5,6 +5,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseHelper {
     WebDriver wd;
 
@@ -17,6 +20,10 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
 
+    public void clickTwice(By locator) {
+        wd.findElement(locator).click();
+        wd.findElement(locator).click();
+    }
     public void alertOk() {
         Alert alert = wd.switchTo().alert();
         String alertText = alert.getText();
@@ -32,6 +39,35 @@ public class BaseHelper {
 
     }
 
+    public void addProducts(String product, int... checkboxes) {
+        searchProduct(product);
+        waitForElementToLoad("#search_form");
+        checkCompareBoxes(checkboxes);
+        click(By.cssSelector("#nextaction-caret"));
+        click(By.cssSelector("#lineaction-addtodoc"));
+    }
+
+    public void checkCompareBoxes(int... nThCheckBoxes) {
+        List<WebElement> checkBoxes = wd.findElements(By.cssSelector("input[class='check-multiple']"));
+        for (int n : nThCheckBoxes) {
+            checkBoxes.get(n - 1).click();
+        }
+    }
+
+    public void setOfficemaxOrderNumberIfPresent() {
+        if (isElementPresent(By.cssSelector("#proposalCustomField_420"))) {
+            click(By.cssSelector("#proposalCustomField_420"));
+            click(By.cssSelector("td.ui-datepicker-days-cell-over.ui-datepicker-today > a"));
+        } else {
+        }
+    }
+
+    public void searchProduct(String productName) {
+        waitForElementToBeVisible(By.cssSelector("input#addProductKeyword"));
+        wd.findElement(By.cssSelector("input#addProductKeyword")).sendKeys(productName);
+        wd.findElement(By.cssSelector("button#add-product-submit")).click();
+    }
+
     public Select getSelect(WebElement element) {
         select = new Select(element);
         return select;
@@ -40,6 +76,12 @@ public class BaseHelper {
     public void goToAccounts() {
         waitForElementToLoad("#tab-customers");
         click(By.xpath("//*[@id=\"tab-customers\"]"));
+    }
+
+    public void switchToNextTab() {
+        wd.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "\t");
+        ArrayList<String> tabs = new ArrayList<String>(wd.getWindowHandles());
+        wd.switchTo().window(tabs.get(1));
     }
 
     protected boolean isElementPresent(By locator) {
@@ -56,11 +98,11 @@ public class BaseHelper {
     }
 
     public void waitForElementToBeVisible(By by) {
-        waitForElementToBeVisible(by, 30);
+        waitForElementToBeVisible(by, 15);
     }
 
     public void waitForElementToBeVisible(WebElement element) {
-        new WebDriverWait(wd, 5).until(ExpectedConditions.visibilityOf(element));
+        new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitForElementToBeVisible(By by, long timeInSeconds) {

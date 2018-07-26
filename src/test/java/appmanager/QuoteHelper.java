@@ -2,11 +2,6 @@ package appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.List;
 
 public class QuoteHelper extends BaseHelper {
 
@@ -19,28 +14,12 @@ public class QuoteHelper extends BaseHelper {
         click(By.xpath("//*[@id=\"tab-customers\"]"));
         getSelect(wd.findElement(By.cssSelector("#accountType")));
         select.selectByValue("Customer");
-        waitForElementToBeVisible(By.cssSelector("#customerForm > table > tbody > tr:nth-child(1) > td.tablecell-view_icon > a"));
-        click(By.cssSelector("#customerForm > table > tbody > tr:nth-child(1) > td.tablecell-view_icon > a"));
+        waitForElementToBeVisible(By.cssSelector("a[title ='View Customer']"));
+        clickTwice(By.cssSelector("a[title ='View Customer']"));
         waitForElementToBeVisible(By.linkText("Create Quote"));
         click(By.linkText("Create Quote"));
     }
 
-    public void addProducts() {
-        searchProduct("Lenovo");
-        waitForElementToLoad("#search_form");
-        checkCompareBoxes(1, 4, 9);
-        click(By.cssSelector("#nextaction-caret"));
-        click(By.cssSelector("#lineaction-addtodoc"));
-    }
-
-    public QuoteHelper checkCompareBoxes(int... nThCheckBoxes) {
-        List<WebElement> checkBoxes = wd.findElements(By.cssSelector("input[class='check-multiple']"));
-
-        for (int n : nThCheckBoxes) {
-            checkBoxes.get(n - 1).click();
-        }
-        return this;
-    }
 
     public int getDocNumber() {
         int quoteInt;
@@ -53,17 +32,6 @@ public class QuoteHelper extends BaseHelper {
             quoteInt = Integer.parseInt(quoteNumber);
         }
         return quoteInt;
-    }
-
-    public QuoteHelper searchProduct(String productName) {
-        waitForElementToBeVisible(By.cssSelector("input#addProductKeyword"));
-        wd.findElement(By.cssSelector("input#addProductKeyword")).sendKeys(productName);
-        wd.findElement(By.cssSelector("button#add-product-submit")).click();
-        return this;
-    }
-
-    public void waitForPageToLoad() {
-        new WebDriverWait(wd, 30).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#quoteNumber")));
     }
 
     public void sleep(long time) {
