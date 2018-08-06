@@ -27,7 +27,7 @@ public class StoresiteTests extends TestBase {
         app.storesite().addProducts("Lenovo", 1, 4, 9);
         app.storesite().checkout();
 
-        assertThat();
+//        assertThat();
     }
 
 }
