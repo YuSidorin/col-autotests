@@ -3,10 +3,27 @@ package appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Objects;
+
 public class QuoteHelper extends BaseHelper {
+
+    private String[] destination;
 
     public QuoteHelper(WebDriver wd) {
         super(wd);
+    }
+
+    public static int quoteNumber = 0;
+    public static int quoteNumberAfter = 0;
+
+    public void create() {
+        goToCreate();
+        quoteNumber = getDocNumber();
+        setOfficemaxOrderNumberIfPresent();
+        addProducts("Lenovo", 1, 4, 9);
+        sleep(1000);
+        quoteNumberAfter = getDocNumber();
+
     }
 
     public void goToCreate() {
@@ -32,6 +49,19 @@ public class QuoteHelper extends BaseHelper {
             quoteInt = Integer.parseInt(quoteNumber);
         }
         return quoteInt;
+    }
+
+    public void sendTo(String destination[]) {
+        if (Objects.equals(destination, "email")) {
+            if (Objects.equals(destination, "print")) {
+                click(By.cssSelector("#ld-nextaction-caret"));
+            } else {
+            }
+        } else {
+            click(By.cssSelector("#ld-nextaction-caret"));
+        }
+
+
     }
 
     public void sleep(long time) {
