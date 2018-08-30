@@ -29,7 +29,7 @@ public class StoresiteHelper extends BaseHelper {
         type(By.cssSelector("#workPhone"), workPhone);
         type(By.cssSelector("#address"), address);
         type(By.cssSelector("#city"), city);
-        type(By.cssSelector("#zip-code"), zip);
+        type(By.cssSelector("#zip"), zip);
         click(By.cssSelector("#signup-btn"));
         waitForElementToBeVisible(By.cssSelector("input[name=Save]"));
         type(By.cssSelector("#password1"), StoresiteHelper.PASSWORD);

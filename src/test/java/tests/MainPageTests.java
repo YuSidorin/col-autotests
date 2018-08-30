@@ -13,11 +13,11 @@ public class MainPageTests extends TestBase {
         assertEquals(QuoteHelper.quoteNumber, QuoteHelper.quoteNumberAfter);
     }
 
-    @Test
-    public void sendQuoteViaMail() {
-        app.quote().create();
-        app.quote().sendTo("email");
-    }
+//    @Test
+//    public void sendQuoteViaMail() {
+//        app.quote().create();
+//        app.quote().sendTo("email");
+//    }
 
 }
 
