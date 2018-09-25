@@ -8,6 +8,8 @@ public class StoresiteHelper extends BaseHelper {
     public static String Email = AccountHelper.companyName + "@cbsi.com";
     public static String StoreName = "";
     public static final String PASSWORD = "Qwe123456789";
+    public static final String STORESITENAME = "" + System.currentTimeMillis();
+    public static String CREATEDSTORESITENAME = "";
 
     public StoresiteHelper(WebDriver wd) {
         super(wd);
@@ -19,6 +21,21 @@ public class StoresiteHelper extends BaseHelper {
         switchToNextTab();
     }
 
+    public void goToStoresiteAdmin() {
+        click(By.cssSelector("a[id=crm-controlpanesectionlink-admin]"));
+        click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
+    }
+
+    public void createNewStoresite() {
+        click(By.linkText("Create New Store"));
+        click(By.cssSelector("input[name=active]"));
+        click(By.cssSelector("label[for=store_type_public]"));
+        type(By.cssSelector("#storesite_url"), StoresiteHelper.STORESITENAME);
+        type(By.cssSelector("#storesite_name"), StoresiteHelper.STORESITENAME);
+        click(By.cssSelector("button[title=Save]"));
+        waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + StoresiteHelper.STORESITENAME));
+        CREATEDSTORESITENAME = wd.findElement(By.cssSelector("h1[class=page-title]")).getText();
+    }
     public void createAccount(String email, String firstName, String lastName, String workPhone, String address, String city, String zip) {
 //        wd.get("https://stage.channelonline.com/colqa_sanity/forsanity/Login/main");
         click(By.cssSelector("#topnav-login"));

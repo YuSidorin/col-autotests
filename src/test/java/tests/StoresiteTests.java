@@ -11,6 +11,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class StoresiteTests extends TestBase {
 
     @Test
+    public void createStoresite() {
+        app.storesite().goToStoresiteAdmin();
+        app.storesite().createNewStoresite();
+        assertThat(StoresiteHelper.CREATEDSTORESITENAME, containsStringIgnoringCase(StoresiteHelper.STORESITENAME));
+
+    }
+    @Test
     public void createStoresiteAccount() {
         app.storesite().goToStoresite("forsanity");
         app.storesite().createAccount(StoresiteHelper.Email, AccountHelper.firstName, AccountHelper.lastName, AccountHelper.phone, AccountHelper.address, AccountHelper.city, AccountHelper.zip);
