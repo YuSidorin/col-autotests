@@ -25,6 +25,7 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
     public void alertOk() {
+        waitForNewWindow();
         Alert alert = wd.switchTo().alert();
         String alertText = alert.getText();
         System.out.println(alertText);
@@ -84,13 +85,18 @@ public class BaseHelper {
         wd.switchTo().window(tabs.get(1));
     }
 
-    protected boolean isElementPresent(By locator) {
+    public boolean isElementPresent(By locator) {
         try {
             wd.findElement(locator);
             return true;
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    public String cleanInt(String text) {
+        return text.replaceAll("\\D", "").replaceAll("[-().]", "");
+
     }
 
     public void waitForElementToLoad(String element) {
@@ -105,6 +111,9 @@ public class BaseHelper {
         new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitForNewWindow() {
+        new WebDriverWait(wd, 10).until((wd) -> wd.getWindowHandles().size() > 1);
+    }
     public void waitForElementToBeVisible(By by, long timeInSeconds) {
         new WebDriverWait(wd, timeInSeconds).until(ExpectedConditions.visibilityOfElementLocated(by));
     }

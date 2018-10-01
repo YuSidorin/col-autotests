@@ -2,6 +2,9 @@ package appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class StoresiteHelper extends BaseHelper {
 
@@ -10,6 +13,7 @@ public class StoresiteHelper extends BaseHelper {
     public static final String PASSWORD = "Qwe123456789";
     public static final String STORESITENAME = "" + System.currentTimeMillis();
     public static String CREATEDSTORESITENAME = "";
+    public static String DELETEDSTORESITENAME = "";
 
     public StoresiteHelper(WebDriver wd) {
         super(wd);
@@ -27,15 +31,42 @@ public class StoresiteHelper extends BaseHelper {
     }
 
     public void createNewStoresite() {
+        int i = +1;
+        String storesitename = StoresiteHelper.STORESITENAME + i;
         click(By.linkText("Create New Store"));
         click(By.cssSelector("input[name=active]"));
         click(By.cssSelector("label[for=store_type_public]"));
-        type(By.cssSelector("#storesite_url"), StoresiteHelper.STORESITENAME);
-        type(By.cssSelector("#storesite_name"), StoresiteHelper.STORESITENAME);
+        type(By.cssSelector("#storesite_url"), storesitename);
+        type(By.cssSelector("#storesite_name"), storesitename);
         click(By.cssSelector("button[title=Save]"));
-        waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + StoresiteHelper.STORESITENAME));
+        waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + storesitename));
         CREATEDSTORESITENAME = wd.findElement(By.cssSelector("h1[class=page-title]")).getText();
     }
+
+    public void deleteAllStoresites() {
+        int maxstorenumber = Integer.parseInt(cleanInt(wd.findElement(By.cssSelector("#crm-main-pane-body > div > div > strong")).getText()));
+        List<WebElement> storesites = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
+        int currentstorenumber = storesites.size();
+        while (currentstorenumber > maxstorenumber - 1) {
+            DELETEDSTORESITENAME = wd.findElement(By.cssSelector("td[class=tablecell-name]")).getText();
+            click(By.cssSelector("a[class=\"storesite-delete \"]"));
+            alertOk();
+            waitForElementToBeVisible(By.cssSelector("td[class=tablecell-name]"));
+        }
+
+    }
+
+    public boolean isStoresiteDeleted(String name) {
+        List<WebElement> elements = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
+        for (WebElement e : elements) {
+            if (e.getText().toLowerCase().contains(name.toLowerCase())) {
+                return true;
+            }
+        }
+        System.out.println(elements);
+        return false;
+    }
+
     public void createAccount(String email, String firstName, String lastName, String workPhone, String address, String city, String zip) {
 //        wd.get("https://stage.channelonline.com/colqa_sanity/forsanity/Login/main");
         click(By.cssSelector("#topnav-login"));
@@ -48,7 +79,7 @@ public class StoresiteHelper extends BaseHelper {
         type(By.cssSelector("#city"), city);
         type(By.cssSelector("#zip"), zip);
         click(By.cssSelector("#signup-btn"));
-        waitForElementToBeVisible(By.cssSelector("input[name=Save]"));
+        waitForElementToBeVisible(By.cssSelector("#password1"));
         type(By.cssSelector("#password1"), StoresiteHelper.PASSWORD);
         type(By.cssSelector("#password2"), StoresiteHelper.PASSWORD);
         click(By.cssSelector("input[name=Save]"));
