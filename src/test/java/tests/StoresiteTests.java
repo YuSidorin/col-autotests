@@ -6,15 +6,23 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.containsStringIgnoringCase;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertFalse;
 
 
 public class StoresiteTests extends TestBase {
 
-    @Test
+    @Test(invocationCount = 2)
     public void createStoresite() {
         app.storesite().goToStoresiteAdmin();
         app.storesite().createNewStoresite();
         assertThat(StoresiteHelper.CREATEDSTORESITENAME, containsStringIgnoringCase(StoresiteHelper.STORESITENAME));
+    }
+
+    @Test
+    public void deleteAllStoresites() {
+        app.storesite().goToStoresiteAdmin();
+        app.storesite().deleteAllStoresites();
+        assertFalse(app.storesite().isStoresiteDeleted(StoresiteHelper.DELETEDSTORESITENAME));
 
     }
     @Test
