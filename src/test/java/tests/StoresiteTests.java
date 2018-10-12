@@ -11,7 +11,7 @@ import static org.testng.Assert.assertFalse;
 
 public class StoresiteTests extends TestBase {
 
-    @Test(invocationCount = 2)
+    @Test
     public void createStoresite() {
         app.storesite().goToStoresiteAdmin();
         app.storesite().createNewStoresite();
@@ -22,12 +22,14 @@ public class StoresiteTests extends TestBase {
     public void deleteAllStoresites() {
         app.storesite().goToStoresiteAdmin();
         app.storesite().deleteAllStoresites();
-        assertFalse(app.storesite().isStoresiteDeleted(StoresiteHelper.DELETEDSTORESITENAME));
-
+        if (StoresiteHelper.DELETEDSTORESITENAME != "")
+            assertFalse(app.storesite().isStoresiteDeleted(StoresiteHelper.DELETEDSTORESITENAME));
+        else System.out.println("No storesite to delete");
     }
+
     @Test
     public void createStoresiteAccount() {
-        app.storesite().goToStoresite("forsanity");
+        app.storesite().goToStoresite(app.properties.getProperty("storesite.name"));
         app.storesite().createAccount(StoresiteHelper.Email, AccountHelper.firstName, AccountHelper.lastName, AccountHelper.phone, AccountHelper.address, AccountHelper.city, AccountHelper.zip);
         app.storesite().login();
         assertThat(StoresiteHelper.StoreName, containsStringIgnoringCase(AccountHelper.companyName));
@@ -36,13 +38,19 @@ public class StoresiteTests extends TestBase {
 
     @Test
     public void createQuote() {
-        app.storesite().goToStoresite("forsanity");
+        app.storesite().goToStoresite(app.properties.getProperty("storesite.name"));
         app.storesite().login();
         app.storesite().setOfficemaxOrderNumberIfPresent();
         app.storesite().addProducts("Lenovo", 1, 4, 9);
         app.storesite().checkout();
 
-//        assertThat();
     }
+
+    @Test
+    public void verifyMessagingOnStoreAdmin() {
+        app.storesite().goToStoresiteAdmin();
+
+    }
+
 
 }

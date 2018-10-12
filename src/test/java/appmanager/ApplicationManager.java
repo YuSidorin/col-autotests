@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-    private final Properties properties;
+    public final Properties properties;
     WebDriver wd;
     private SessionHelper sessionHelper;
     private QuoteHelper quoteHelper;

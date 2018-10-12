@@ -30,6 +30,11 @@ public class StoresiteHelper extends BaseHelper {
         click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
     }
 
+    public void goToStoresiteAdmin(String name) {
+        click(By.cssSelector("a[id=crm-controlpanesectionlink-admin]"));
+        click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
+    }
+
     public void createNewStoresite() {
         int i = +1;
         String storesitename = StoresiteHelper.STORESITENAME + i;
@@ -47,7 +52,7 @@ public class StoresiteHelper extends BaseHelper {
         int maxstorenumber = Integer.parseInt(cleanInt(wd.findElement(By.cssSelector("#crm-main-pane-body > div > div > strong")).getText()));
         List<WebElement> storesites = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
         int currentstorenumber = storesites.size();
-        while (currentstorenumber > maxstorenumber - 1) {
+        while (currentstorenumber >= maxstorenumber - 1) {
             DELETEDSTORESITENAME = wd.findElement(By.cssSelector("td[class=tablecell-name]")).getText();
             click(By.cssSelector("a[class=\"storesite-delete \"]"));
             alertOk();

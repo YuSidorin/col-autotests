@@ -25,7 +25,7 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
     public void alertOk() {
-        waitForNewWindow();
+//        waitForNewWindow();
         Alert alert = wd.switchTo().alert();
         String alertText = alert.getText();
         System.out.println(alertText);
@@ -112,7 +112,7 @@ public class BaseHelper {
     }
 
     public void waitForNewWindow() {
-        new WebDriverWait(wd, 10).until((wd) -> wd.getWindowHandles().size() > 1);
+        new WebDriverWait(wd, 4).until((wd) -> wd.getWindowHandles().size() > 1);
     }
     public void waitForElementToBeVisible(By by, long timeInSeconds) {
         new WebDriverWait(wd, timeInSeconds).until(ExpectedConditions.visibilityOfElementLocated(by));
