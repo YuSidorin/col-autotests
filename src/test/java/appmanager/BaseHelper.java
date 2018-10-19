@@ -20,6 +20,12 @@ public class BaseHelper {
         wd.findElement(locator).click();
     }
 
+    public void type(By locator, String text) {
+        click(locator);
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+
+    }
     public void clickTwice(By locator) {
         wd.findElement(locator).click();
         wd.findElement(locator).click();
@@ -30,13 +36,6 @@ public class BaseHelper {
         String alertText = alert.getText();
         System.out.println(alertText);
         alert.accept();
-
-    }
-
-    public void type(By locator, String text) {
-        click(locator);
-        wd.findElement(locator).clear();
-        wd.findElement(locator).sendKeys(text);
 
     }
 
@@ -99,8 +98,19 @@ public class BaseHelper {
 
     }
 
+    public boolean verifyIsElementInList(By locator, String desiredElement) {
+        List<WebElement> elements = wd.findElements(locator);
+        for (WebElement element : elements) {
+            String e = element.getText();
+            if (e.equals(desiredElement)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void waitForElementToLoad(String element) {
-        new WebDriverWait(wd, 15).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(element)));
+        new WebDriverWait(wd, 4).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(element)));
     }
 
     public void waitForElementToBeVisible(By by) {

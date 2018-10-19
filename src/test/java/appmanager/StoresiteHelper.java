@@ -13,8 +13,8 @@ public class StoresiteHelper extends BaseHelper {
     public static final String PASSWORD = "Qwe123456789";
     public static final String STORESITENAME = "" + System.currentTimeMillis();
     public static String CREATEDSTORESITENAME = "";
-    public static String DELETEDSTORESITENAME = "";
 
+    public static String DELETEDSTORESITENAME = "";
     public StoresiteHelper(WebDriver wd) {
         super(wd);
     }
@@ -26,13 +26,26 @@ public class StoresiteHelper extends BaseHelper {
     }
 
     public void goToStoresiteAdmin() {
-        click(By.cssSelector("a[id=crm-controlpanesectionlink-admin]"));
+        WebElement storesiteLink = wd.findElement(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
+        if (storesiteLink.isDisplayed()) {
+            click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
+        } else
+            click(By.cssSelector("a[id=crm-controlpanesectionlink-admin]"));
         click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
     }
 
-    public void goToStoresiteAdmin(String name) {
-        click(By.cssSelector("a[id=crm-controlpanesectionlink-admin]"));
-        click(By.cssSelector("a[id=crm-controlpanelink-storesite]"));
+    public void goToStoresiteAdmin(String selectedstoresite) {
+        List<WebElement> storesiteLinks = wd.findElements(By.cssSelector("span[class=ctrl-icon-view]"));
+        List<WebElement> storesiteNames = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
+        for (WebElement names : storesiteNames) {
+            String name = names.getText();
+            if (name.equals(selectedstoresite)) {
+                int i = storesiteNames.indexOf(names);
+                storesiteLinks.get(i).click();
+                break;
+            }
+
+        }
     }
 
     public void createNewStoresite() {
@@ -41,18 +54,30 @@ public class StoresiteHelper extends BaseHelper {
         click(By.linkText("Create New Store"));
         click(By.cssSelector("input[name=active]"));
         click(By.cssSelector("label[for=store_type_public]"));
-        type(By.cssSelector("#storesite_url"), storesitename);
+        type(By.cssSelector("#storesite_url"), storesitename + System.currentTimeMillis());
         type(By.cssSelector("#storesite_name"), storesitename);
         click(By.cssSelector("button[title=Save]"));
         waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + storesitename));
         CREATEDSTORESITENAME = wd.findElement(By.cssSelector("h1[class=page-title]")).getText();
     }
 
+    public void createNewStoresite(String storesitename) {
+        click(By.linkText("Create New Store"));
+        click(By.cssSelector("input[name=active]"));
+        click(By.cssSelector("label[for=store_type_public]"));
+        type(By.cssSelector("#storesite_url"), storesitename + System.currentTimeMillis());
+        type(By.cssSelector("#storesite_name"), storesitename);
+        click(By.cssSelector("button[title=Save]"));
+        waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + storesitename));
+    }
+
+
     public void deleteAllStoresites() {
-        int maxstorenumber = Integer.parseInt(cleanInt(wd.findElement(By.cssSelector("#crm-main-pane-body > div > div > strong")).getText()));
+        int maxStoreNumber = Integer.parseInt(cleanInt(wd.findElement(By.cssSelector("#crm-main-pane-body > div > div > strong")).getText()));
         List<WebElement> storesites = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
-        int currentstorenumber = storesites.size();
-        while (currentstorenumber >= maxstorenumber - 1) {
+        int currentStoreNumber = storesites.size();
+        while (storesites.size() > maxStoreNumber - 1) {
+
             DELETEDSTORESITENAME = wd.findElement(By.cssSelector("td[class=tablecell-name]")).getText();
             click(By.cssSelector("a[class=\"storesite-delete \"]"));
             alertOk();
