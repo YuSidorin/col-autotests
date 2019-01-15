@@ -35,7 +35,7 @@ public class StoresiteHelper extends BaseHelper {
     }
 
     public void goToStoresiteAdmin(String selectedstoresite) {
-        List<WebElement> storesiteLinks = wd.findElements(By.cssSelector("span[class=ctrl-icon-view]"));
+        List<WebElement> storesiteLinks = wd.findElements(By.cssSelector("span[class=ctrl-icon-edit]"));
         List<WebElement> storesiteNames = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
         for (WebElement names : storesiteNames) {
             String name = names.getText();
@@ -71,13 +71,17 @@ public class StoresiteHelper extends BaseHelper {
         waitForElementToBeVisible(By.linkText("https://stage.channelonline.com/colqa_sanity/" + storesitename));
     }
 
+    public void deleteOneStoresite() {
+            click(By.cssSelector("a[class=\"storesite-delete \"]"));
+            alertOk();
+            waitForElementToBeVisible(By.cssSelector("td[class=tablecell-name]"));
+        }
 
     public void deleteAllStoresites() {
         int maxStoreNumber = Integer.parseInt(cleanInt(wd.findElement(By.cssSelector("#crm-main-pane-body > div > div > strong")).getText()));
         List<WebElement> storesites = wd.findElements(By.cssSelector("td[class=tablecell-name]"));
         int currentStoreNumber = storesites.size();
         while (storesites.size() > maxStoreNumber - 1) {
-
             DELETEDSTORESITENAME = wd.findElement(By.cssSelector("td[class=tablecell-name]")).getText();
             click(By.cssSelector("a[class=\"storesite-delete \"]"));
             alertOk();

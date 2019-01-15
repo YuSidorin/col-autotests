@@ -19,7 +19,7 @@ public class StoresiteTests extends TestBase {
         app.storesite().goToStoresiteAdmin();
         if (!app.storesite().verifyIsElementInList(By.cssSelector("td[class=tablecell-name]"), app.properties.getProperty("storesite.name"))) {
             if (app.storesite().isElementPresent(By.cssSelector("a.disabled"))) {
-                app.storesite().deleteAllStoresites();
+//                app.storesite().deleteAllStoresites();
                 app.storesite().createNewStoresite(app.properties.getProperty("storesite.name"));
             } else app.storesite().createNewStoresite(app.properties.getProperty("storesite.name"));
         }
@@ -70,8 +70,8 @@ public class StoresiteTests extends TestBase {
         app.storesite().click(By.cssSelector("button.btn.btn-primary.save-panel"));
         app.storesite().goToStoresiteAdmin();
         assertTrue(app.storesite().verifyIsElementInList(By.cssSelector("td[class=tablecell-name]"), changedstore));
-
     }
+
 
 
 }
